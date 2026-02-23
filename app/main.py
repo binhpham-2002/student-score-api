@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from app.schemas import StudentInput
 from app.model.predict import predict_score
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -17,3 +19,7 @@ def predict(data: StudentInput):
 @app.get("/health")
 def health_check():
     return {"status": "OK"}
+
+@app.get("/ui")
+def serve_ui():
+    return FileResponse("index.html")
