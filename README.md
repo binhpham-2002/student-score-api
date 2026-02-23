@@ -86,3 +86,5 @@ Example Request:
   "Learning_Disabilities": "No",
   "Gender": "Male"
 }
+## 🌍 Live Demo
+https://student-score-api.onrender.com/docs
