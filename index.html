@@ -1,82 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Score API - Project Summary</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Student Score Predictor</title>
 </head>
-<body class="bg-gradient-to-br from-slate-900 to-slate-800 text-white min-h-screen">
+<body>
+    <h2>Student Score Prediction</h2>
 
-    <div class="max-w-5xl mx-auto px-6 py-12">
+    <input id="hours" placeholder="Hours Studied"><br><br>
+    <input id="attendance" placeholder="Attendance"><br><br>
 
-        <!-- Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold mb-4">🚀 Student Score API</h1>
-            <p class="text-slate-300 text-lg">
-                Production-Ready API with CI/CD Automation
-            </p>
-        </div>
+    <button onclick="predict()">Predict</button>
 
-        <!-- Project Overview -->
-        <div class="bg-slate-800 rounded-2xl shadow-xl p-8 mb-8 border border-slate-700">
-            <h2 class="text-2xl font-semibold mb-4 text-indigo-400">📌 Project Overview</h2>
-            <p class="text-slate-300 leading-relaxed">
-                Designed and implemented a production-ready RESTful API using Python.
-                Integrated automated CI/CD pipeline with GitHub Actions to validate
-                code integrity and environment setup on every push.
-            </p>
-        </div>
+    <h3 id="result"></h3>
 
-        <!-- Technical Achievements -->
-        <div class="grid md:grid-cols-2 gap-6 mb-8">
+<script>
+async function predict() {
+    const data = {
+        Hours_Studied: parseFloat(document.getElementById("hours").value),
+        Attendance: parseFloat(document.getElementById("attendance").value),
+        Sleep_Hours: 7,
+        Previous_Scores: 75,
+        Tutoring_Sessions: 2,
+        Physical_Activity: 3,
+        Parental_Involvement: "High",
+        Access_to_Resources: "Medium",
+        Extracurricular_Activities: "Yes",
+        Motivation_Level: "High",
+        Internet_Access: "Yes",
+        Family_Income: "Low",
+        School_Type: "Public",
+        Peer_Influence: "Positive",
+        Learning_Disabilities: "No",
+        Gender: "Male"
+    };
 
-            <div class="bg-slate-800 rounded-2xl shadow-xl p-6 border border-slate-700">
-                <h2 class="text-xl font-semibold mb-4 text-green-400">⚙️ Technical Achievements</h2>
-                <ul class="space-y-2 text-slate-300">
-                    <li>✔ Built RESTful API in Python</li>
-                    <li>✔ Configured GitHub Actions CI workflow</li>
-                    <li>✔ Fixed Python version mismatch (Ubuntu 24.04)</li>
-                    <li>✔ Debugged YAML workflow errors</li>
-                    <li>✔ Automated build & test validation</li>
-                </ul>
-            </div>
+    const response = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
 
-            <div class="bg-slate-800 rounded-2xl shadow-xl p-6 border border-slate-700">
-                <h2 class="text-xl font-semibold mb-4 text-yellow-400">🔐 DevOps Skills</h2>
-                <ul class="space-y-2 text-slate-300">
-                    <li>✔ CI/CD pipeline design</li>
-                    <li>✔ Git authentication troubleshooting</li>
-                    <li>✔ Secure Personal Access Token configuration</li>
-                    <li>✔ Linux environment debugging</li>
-                    <li>✔ Production workflow automation</li>
-                </ul>
-            </div>
-
-        </div>
-
-        <!-- Engineering Competencies -->
-        <div class="bg-slate-800 rounded-2xl shadow-xl p-8 mb-8 border border-slate-700">
-            <h2 class="text-2xl font-semibold mb-4 text-pink-400">🧠 Engineering Competencies</h2>
-            <div class="grid md:grid-cols-3 gap-4 text-slate-300">
-                <div class="bg-slate-700 p-4 rounded-xl text-center">
-                    Problem Diagnosis from CI Logs
-                </div>
-                <div class="bg-slate-700 p-4 rounded-xl text-center">
-                    Secure Credential Management
-                </div>
-                <div class="bg-slate-700 p-4 rounded-xl text-center">
-                    Production-Level Automation Mindset
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center text-slate-400 text-sm mt-12">
-            Built by Binh Pham | Master of Engineering Technology | SJSU
-        </div>
-
-    </div>
-
+    const result = await response.json();
+    document.getElementById("result").innerText =
+        "Predicted Score: " + result.predicted_score.toFixed(2);
+}
+</script>
 </body>
 </html>
