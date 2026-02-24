@@ -3,6 +3,8 @@ from app.schemas import StudentInput
 from app.model.predict import predict_score
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 
 app = FastAPI()
 
@@ -20,6 +22,8 @@ def predict(data: StudentInput):
 def health_check():
     return {"status": "OK"}
 
+templates = Jinja2Templates(directory="templates")
+
 @app.get("/ui")
-def serve_ui():
-    return FileResponse("index.html")
+def serve_ui(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
